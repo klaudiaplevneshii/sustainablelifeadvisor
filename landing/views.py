@@ -6,11 +6,11 @@ from django.utils.safestring import mark_safe
 # Create your views here.
 from django.http import HttpResponse
 
-def hola(request):
-    return HttpResponse("¡Hola Django!")
+def hello(request):
+    return HttpResponse("¡Hello Django!")
 
 def calculate(request):
-    resultado = None
+    result = None
 
     if request.method == 'POST':
 
