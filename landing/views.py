@@ -1,5 +1,7 @@
 from .utils import estimate_footprint
 from django.template import loader
+from .utils import estimate_footprint, generate_ai_suggestion_mistral
+from django.utils.safestring import mark_safe
 
 # Create your views here.
 from django.http import HttpResponse
@@ -30,11 +32,23 @@ def calculate(request):
             litros
         )
 
+        prompt = (
+            f"The user drives {distance} km per day using a {transport}, "
+            f"uses {energy} kWh of electricity, consumes {gas} m³ of gas, and uses {litros} L of {fuel}. "
+            "Suggest 3 practical and friendly ways to reduce their carbon footprint."
+        )
+
+        ai_response = generate_ai_suggestion_mistral(prompt)
+
         context = {
-                'result': result,                 
+            'result': result,
+            'ai_suggestion_html': mark_safe(ai_response.replace('\n', '<br>'))
         }
     else:
-        context = {'result': None}
+        context = {
+            'result': None,
+            'ai_suggestion': None
+        }
 
     template = loader.get_template('form.html')
     return HttpResponse(template.render(context, request))

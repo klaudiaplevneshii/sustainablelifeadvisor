@@ -1,3 +1,5 @@
+import requests
+
 def estimate_footprint(
     transport, passenger, Distance_km,
     energia_kwh, gas_m3,
@@ -44,3 +46,31 @@ def estimate_footprint(
 #| 🚲 Bicicleta     | 0 kg CO₂                   |
 #| ⚡ Electricidad  | 0.233 kg CO₂ / kWh         |
 #| 🔥 Gas natural   | 2.0 kg CO₂ / m³            |
+
+# ---------------------------------------------
+# 🌿 AI Suggestion via Mistral API
+# ---------------------------------------------
+
+def generate_ai_suggestion_mistral(prompt_text):
+    url = "https://api.mistral.ai/v1/chat/completions"
+
+    headers = {
+        "Authorization": "Bearer w00V1V2iqeNCYiCYPiofaE2HL0pRYrQM",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "model": "mistral-medium",
+        "messages": [
+            {"role": "user", "content": prompt_text}
+        ],
+        "temperature": 0.7
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data["choices"][0]["message"]["content"]
+    else:
+        return f"[ERROR] {response.status_code}: {response.text}"
