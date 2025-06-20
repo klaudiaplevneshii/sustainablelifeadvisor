@@ -52,3 +52,9 @@ def calculate(request):
 
     template = loader.get_template('form.html')
     return HttpResponse(template.render(context, request))
+
+from django.shortcuts import render
+
+def about_view(request):
+    return render(request, 'about.html')
+
