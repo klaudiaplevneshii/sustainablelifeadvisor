@@ -1,6 +1,7 @@
 from .utils import estimate_footprint
 from django.template import loader
 from .utils import estimate_footprint, generate_ai_suggestion_mistral
+import markdown
 from django.utils.safestring import mark_safe
 
 # Create your views here.
@@ -40,10 +41,13 @@ def calculate(request):
 
         ai_response = generate_ai_suggestion_mistral(prompt)
 
+        html = markdown.markdown(ai_response)
+
         context = {
             'result': result,
-            'ai_suggestion_html': mark_safe(ai_response.replace('\n', '<br>'))
+            'ai_suggestion_html': mark_safe(html)
         }
+
     else:
         context = {
             'result': None,
