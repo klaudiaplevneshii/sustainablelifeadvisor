@@ -1,11 +1,10 @@
-from .utils import estimate_footprint
-from django.template import loader
-from .utils import estimate_footprint, generate_ai_suggestion_mistral
-import markdown
-from django.utils.safestring import mark_safe
-
-# Create your views here.
 from django.http import HttpResponse
+from django.template import loader
+from django.shortcuts import render
+from django.utils.safestring import mark_safe
+import markdown
+
+from .utils import estimate_footprint, generate_ai_suggestion_mistral
 
 def hello(request):
     return HttpResponse("¡Hello Django!")
@@ -14,7 +13,6 @@ def calculate(request):
     result = None
 
     if request.method == 'POST':
-
         transport = request.POST.get('transport')
         passenger = 1
         distance = float(request.POST.get('distance', 0))
@@ -33,6 +31,20 @@ def calculate(request):
             litros
         )
 
+        entry = {
+            'transport': transport,
+            'distance': distance,
+            'energy': energy,
+            'gas': gas,
+            'fuel': fuel,
+            'litros': litros,
+            'result': result
+        }
+
+        history = request.session.get('user_history', [])
+        history.append(entry)
+        request.session['user_history'] = history
+
         prompt = (
             f"The user drives {distance} km per day using a {transport}, "
             f"uses {energy} kWh of electricity, consumes {gas} m³ of gas, and uses {litros} L of {fuel}. "
@@ -40,7 +52,6 @@ def calculate(request):
         )
 
         ai_response = generate_ai_suggestion_mistral(prompt)
-
         html = markdown.markdown(ai_response)
 
         context = {
@@ -57,7 +68,6 @@ def calculate(request):
     template = loader.get_template('form.html')
     return HttpResponse(template.render(context, request))
 
-from django.shortcuts import render
 
 def about_view(request):
     return render(request, 'about.html')
@@ -65,3 +75,6 @@ def about_view(request):
 def homepage(request):
     return render(request, 'homepage.html')
 
+def view_history(request):
+    history = request.session.get('user_history', [])
+    return render(request, 'history.html', {'history': history})

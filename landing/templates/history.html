@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}History - Sustainable Life Advisor{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-3xl mx-auto bg-white p-8 rounded-xl shadow">
+    <h2 class="text-2xl font-bold text-green-700 mb-6 text-center">Your Carbon Footprint History</h2>
+
+    {% if history %}
+        <table class="table-auto w-full border border-gray-300 text-sm">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="border px-4 py-2">Transport</th>
+                    <th class="border px-4 py-2">Distance (km)</th>
+                    <th class="border px-4 py-2">Energy (kWh)</th>
+                    <th class="border px-4 py-2">Gas (m³)</th>
+                    <th class="border px-4 py-2">Fuel</th>
+                    <th class="border px-4 py-2">Litres</th>
+                    <th class="border px-4 py-2">Result (kg CO₂)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in history %}
+                    <tr>
+                        <td class="border px-4 py-2">{{ entry.transport }}</td>
+                        <td class="border px-4 py-2">{{ entry.distance }}</td>
+                        <td class="border px-4 py-2">{{ entry.energy }}</td>
+                        <td class="border px-4 py-2">{{ entry.gas }}</td>
+                        <td class="border px-4 py-2">{{ entry.fuel }}</td>
+                        <td class="border px-4 py-2">{{ entry.litros }}</td>
+                        <td class="border px-4 py-2">{{ entry.result }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-gray-600 text-center">No history found yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
