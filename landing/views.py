@@ -37,7 +37,7 @@ def calculate(request):
             'energy': energy,
             'gas': gas,
             'fuel': fuel,
-            'litros': litros,
+            'litres': litros,
             'result': result
         }
 
