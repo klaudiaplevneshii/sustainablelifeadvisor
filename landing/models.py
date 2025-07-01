@@ -14,3 +14,13 @@ class User(models.Model):
     is_verified = models.BooleanField(default=False)  # Field to indicate if the user is verified
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)  # Optional profile picture field
     bio = models.TextField(null=True, blank=True)  # Optional bio field
+
+class EmissionRecord(models.Model):
+    transport = models.CharField(max_length=50)
+    distance = models.FloatField()
+    energy = models.FloatField()
+    gas = models.FloatField()
+    fuel = models.CharField(max_length=50)
+    litres = models.FloatField()
+    result = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)

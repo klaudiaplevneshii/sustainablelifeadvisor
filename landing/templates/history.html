@@ -37,4 +37,12 @@
         <p class="text-gray-600 text-center">No history found yet.</p>
     {% endif %}
 </div>
+    <form method="POST" action="{% url 'delete_history' %}" class="text-center mt-6">
+    {% csrf_token %}
+    <button type="submit"
+        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded transition duration-200">
+        Delete All Records
+    </button>
+</form>
 {% endblock %}
+

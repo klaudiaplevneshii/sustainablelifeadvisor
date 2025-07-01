@@ -3,6 +3,8 @@ from django.template import loader
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
 import markdown
+from django.shortcuts import redirect
+from .models import EmissionRecord
 
 from .utils import estimate_footprint, generate_ai_suggestion_mistral
 
@@ -78,3 +80,9 @@ def homepage(request):
 def view_history(request):
     history = request.session.get('user_history', [])
     return render(request, 'history.html', {'history': history})
+
+
+def clear_history(request):
+    if request.method == 'POST':
+        request.session['user_history'] = []
+        return redirect('view_history')
