@@ -28,6 +28,6 @@ urlpatterns = [
 
     path('delete_history/', views.clear_history, name='delete_history'),
 
-
+    path('impact/', views.impact_view, name='impact'),
 
 ]

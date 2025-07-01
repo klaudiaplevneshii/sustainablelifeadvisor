@@ -86,3 +86,7 @@ def clear_history(request):
     if request.method == 'POST':
         request.session['user_history'] = []
         return redirect('view_history')
+
+
+def impact_view(request):
+    return render(request, 'impact.html')
