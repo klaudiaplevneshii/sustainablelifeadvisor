@@ -1,19 +1,16 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 import markdown
-from django.shortcuts import redirect
+from django.urls import reverse
 from .models import EmissionRecord
-
 from .utils import estimate_footprint, generate_ai_suggestion_mistral
 
 def hello(request):
     return HttpResponse("¡Hello Django!")
 
 def calculate(request):
-    result = None
-
     if request.method == 'POST':
         transport = request.POST.get('transport')
         passenger = 1
@@ -56,26 +53,36 @@ def calculate(request):
         ai_response = generate_ai_suggestion_mistral(prompt)
         html = markdown.markdown(ai_response)
 
-        context = {
-            'result': result,
-            'ai_suggestion_html': mark_safe(html)
-        }
+        request.session['latest_result'] = result
+        request.session['latest_ai_suggestion'] = html
 
-    else:
-        context = {
-            'result': None,
-            'ai_suggestion': None
-        }
+        return redirect(reverse('result'))
 
-    template = loader.get_template('form.html')
-    return HttpResponse(template.render(context, request))
+    return render(request, 'form.html')
+
+
+def result(request):
+    result = request.session.get('latest_result')
+    ai_suggestion_html = request.session.get('latest_ai_suggestion')
+
+    if result is None:
+
+        return redirect(reverse('calculate'))
+
+    context = {
+        'result': result,
+        'ai_suggestion_html': mark_safe(ai_suggestion_html)
+    }
+    return render(request, 'result.html', context)
 
 
 def about_view(request):
     return render(request, 'about.html')
 
+
 def homepage(request):
     return render(request, 'homepage.html')
+
 
 def view_history(request):
     history = request.session.get('user_history', [])
@@ -90,3 +97,5 @@ def clear_history(request):
 
 def impact_view(request):
     return render(request, 'impact.html')
+
+
