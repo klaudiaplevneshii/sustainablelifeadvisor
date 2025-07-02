@@ -4,20 +4,35 @@
 {% block title %}About Us - Sustainable Life Advisor{% endblock %}
 
 {% block content %}
-<div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-xl">
+<div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl">
     <h1 class="text-2xl font-bold text-center text-green-700 mb-6">About Us</h1>
 
-    <p class="mb-4 text-gray-700 text-center">
-        We are a student team from TUM who worked together to develop the Sustainable Life Advisor tool as part of our coursework. 
-        Each member contributed to different aspects of the project, such as logic implementation, user interface, data handling, and final documentation.
+    <p class="mb-6 text-gray-700 text-center">
+        The Sustainable Life Advisor is an interactive web tool designed to help individuals make more environmentally conscious decisions in their daily lives. Our platform provides personalized recommendations based on your lifestyle choices, helping you understand the environmental impact of your actions and discover practical ways to live more sustainably.
     </p>
 
-    <ul class="list-disc pl-6 space-y-2 text-gray-600">
-        <li><strong>Andrea Antinori</strong> – Developed the quiz and result pages; contributed to core logic and functionality.</li>
-        <li><strong>Klaudia Plevneshi</strong> – Designed the homepage, structured the quiz and result layout, and created the “fun facts” section.</li>
-        <li><strong>Monika Qian Wang</strong> – Created the About Us page and contributed to drafting the final project report.</li>
-        <li><strong>Tzu-Yin Liao</strong> – Supported integration work and testing throughout the development phase.</li>
-    </ul>
+    <div class="bg-green-50 p-6 rounded-lg mb-6">
+        <h3 class="text-lg font-semibold text-green-700 mb-4">What We Offer</h3>
+        <ul class="space-y-3 text-gray-700">
+            <li><span class="font-semibold text-green-600">Personalized Assessment:</span> Take our comprehensive quiz to discover your current environmental footprint across different lifestyle categories.</li>
+            <li><span class="font-semibold text-green-600">Tailored Recommendations:</span> Receive customized suggestions for reducing your environmental impact based on your specific habits and preferences.</li>
+            <li><span class="font-semibold text-green-600">Fun Facts & Tips:</span> Access environmental facts and practical sustainability tips to expand your eco-knowledge.</li>
+        </ul>
+    </div>
+
+    <p class="mb-6 text-gray-700 text-center">
+        Our mission is to make sustainable living accessible and achievable for everyone. We believe that small, informed changes in daily habits can collectively make a significant positive impact on our environment. Whether you're just starting your sustainability journey or looking to optimize your existing eco-friendly practices, our tool provides the guidance and motivation you need to make a difference.
+    </p>
+
+    <div class="bg-gray-50 p-6 rounded-lg mb-6">
+        <h3 class="text-lg font-semibold text-green-700 mb-4 text-center">Development Team</h3>
+        <div class="flex flex-wrap justify-center gap-4">
+            <span class="bg-white px-4 py-2 rounded-full text-gray-700 font-medium">Andrea Antinori</span>
+            <span class="bg-white px-4 py-2 rounded-full text-gray-700 font-medium">Klaudia Plevneshi</span>
+            <span class="bg-white px-4 py-2 rounded-full text-gray-700 font-medium">Monika Qian Wang</span>
+            <span class="bg-white px-4 py-2 rounded-full text-gray-700 font-medium">Tzu-Yin Liao</span>
+        </div>
+    </div>
 
     <!-- Logo -->
     <div class="mt-8 flex justify-center">
@@ -28,7 +43,7 @@
     <div class="mt-6 text-center text-sm text-gray-500">
         <p>Technical University of Munich (TUM)</p>
         <p>Arcisstraße 21, 80333 München, Germany</p>
-        <p>Email: 
+        <p>Email:
             <a href="mailto:sustainablelifeadvisor@tum.de" class="text-blue-600 hover:underline">
                 sustainablelifeadvisor@tum.de
             </a>
