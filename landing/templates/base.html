@@ -5,6 +5,9 @@
     <title>{% block title %}Sustainable Life Advisor{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-start py-10">
 
@@ -17,6 +20,16 @@
 
     {% block content %}{% endblock %}
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        tippy('[data-tippy-content]', {
+          theme: 'light',
+          animation: 'shift-away-subtle',
+          placement: 'right',
+          arrow: true,
+        });
+      });
+    </script>
 </body>
 </html>
 
