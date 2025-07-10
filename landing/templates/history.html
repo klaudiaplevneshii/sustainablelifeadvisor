@@ -3,12 +3,16 @@
 {% block title %}History - Sustainable Life Advisor{% endblock %}
 
 {% block content %}
-<div class="w-full max-w-3xl mx-auto bg-white p-8 rounded-xl shadow">
-    <h2 class="text-2xl font-bold text-green-700 mb-6 text-center">Your Carbon Footprint History</h2>
+<div class="w-full max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md
+            hover:shadow-xl hover:scale-[1.01] transition-transform duration-300 ease-in-out">
+
+    <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">
+        Your Carbon Footprint History
+    </h2>
 
     {% if history %}
-        <table class="table-auto w-full border border-gray-300 text-sm">
-            <thead class="bg-gray-100">
+        <table class="table-auto w-full border border-gray-300 text-sm rounded overflow-hidden">
+            <thead class="bg-gray-100 text-gray-800 font-semibold">
                 <tr>
                     <th class="border px-4 py-2">Transport</th>
                     <th class="border px-4 py-2">Distance (km)</th>
@@ -21,7 +25,7 @@
             </thead>
             <tbody>
                 {% for entry in history %}
-                    <tr>
+                    <tr class="hover:bg-green-50 transition duration-200">
                         <td class="border px-4 py-2">{{ entry.transport }}</td>
                         <td class="border px-4 py-2">{{ entry.distance }}</td>
                         <td class="border px-4 py-2">{{ entry.energy }}</td>
@@ -37,12 +41,16 @@
         <p class="text-gray-600 text-center">No history found yet.</p>
     {% endif %}
 </div>
-    <form method="POST" action="{% url 'delete_history' %}" class="text-center mt-6">
+
+<form method="POST" action="{% url 'delete_history' %}" class="text-center mt-6">
     {% csrf_token %}
     <button type="submit"
-        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded transition duration-200">
+        class="bg-red-600 hover:bg-red-700 active:scale-95 focus:ring-2 focus:ring-red-300 focus:outline-none
+               text-white font-bold py-3 px-6 rounded-md shadow-md hover:shadow-lg
+               transition-all duration-300">
         Delete All Records
     </button>
 </form>
 {% endblock %}
+
 

@@ -1,10 +1,57 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home - Sustainable Life Advisor{% endblock %}
 
 {% block content %}
-<div class="w-full max-w-2xl bg-white p-10 rounded-2xl shadow-lg text-center">
-    <h1 class="text-3xl font-bold text-green-700 mb-6">Sustainable Life Advisor</h1>
+<!-- Title -->
+<div class="w-full py-12 px-4 text-center">
+  <h1 class="text-3xl font-bold text-green-800 mb-4">Sustainable Life Advisor</h1>
+  <p class="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
+    Make more environmentally conscious choices in your daily life.
+    Discover your impact and receive practical suggestions for living sustainably.
+  </p>
+</div>
+
+<!-- Fun Facts Section -->
+<div class="w-full max-w-4xl mx-auto mt-12 px-4">
+  <h2 class="text-2xl font-bold text-green-700 mb-6 flex items-center">
+     <span class="ml-2">Did you know?</span>
+  </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- funfact 1 -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transform hover:scale-105 transition duration-300 relative group">
+            <img src="{% static 'image/washing_machine.jpg' %}" alt="Washing machine" class="w-full h-48 object-cover">
+            <div class="absolute inset-0 bg-white bg-opacity-90 opacity-0 group-hover:opacity-100 flex items-center justify-center text-center px-4 transition duration-300">
+                <p class="text-sm text-gray-800">Using cold water for laundry can reduce CO₂ emissions by up to 90% compared to hot water.</p>
+            </div>
+        </div>
+
+        <!-- funfact 2 -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transform hover:scale-105 transition duration-300 relative group">
+            <img src="{% static 'image/shower.jpeg' %}" alt="Shower" class="w-full h-48 object-cover">
+            <div class="absolute inset-0 bg-white bg-opacity-90 opacity-0 group-hover:opacity-100 flex items-center justify-center text-center px-4 transition duration-300">
+                <p class="text-sm text-gray-800">Shortening your shower by just 2 minutes saves up to 10 liters of water.</p>
+            </div>
+        </div>
+
+        <!-- funfact 3 -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transform hover:scale-105 transition duration-300 relative group">
+            <img src="{% static 'image/bike.png' %}" alt="Bike ride" class="w-full h-48 object-cover">
+            <div class="absolute inset-0 bg-white bg-opacity-90 opacity-0 group-hover:opacity-100 flex items-center justify-center text-center px-4 transition duration-300">
+                <p class="text-sm text-gray-800">Riding a bike instead of driving for 10 km saves about 2.5 kg of CO₂.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="text-center mt-16 mb-4">
+  <h2 class="text-3xl font-bold text-green-700">Find Out Your Carbon Footprint</h2>
+</div>
+
+<!-- Start Quiz Section -->
+<div class="w-full max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-lg text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl mt-12">
 
     <p class="text-lg text-gray-600 mb-8 leading-relaxed">
         Calculate your carbon footprint and get personalized suggestions to live more sustainably.
@@ -15,25 +62,16 @@
             Start Quiz
         </button>
     </a>
-
-    <div class="mt-4">
-<!--        <a href="{% url 'view_history' %}">
-            <button class="bg-gray-200 text-green-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-300 transition">
-                View History
-            </button>
-        </a> -->
-    </div>
 </div>
 
-<!-- Fun Facts Section -->
-<div class="mt-8 p-4 bg-yellow-100 border border-yellow-300 rounded-lg shadow">
-    <h3 class="text-lg font-semibold text-yellow-800 mb-2">🌍 Did you know?</h3>
-    <ul class="list-disc list-inside text-sm text-yellow-900 space-y-1">
-        <li>Using cold water for laundry can reduce CO₂ emissions by up to 90% compared to hot water.</li>
-        <li>Shortening your shower by just 2 minutes saves up to 10 liters of water.</li>
-        <li>Riding a bike instead of driving for 10 km saves about 2.5 kg of CO₂.</li>
-    </ul>
-</div>
 {% endblock %}
+
+
+
+
+
+
+
+
 
 
