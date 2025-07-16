@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}CO2 Emissions Interpretation - Sustainable Life Advisor{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-4xl mx-auto mt-8 transition transform ease-in-out duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-1">
+
+    <h1 class="text-3xl font-bold text-green-700 mb-4 text-center">📊 Understanding Your Daily CO2 Footprint</h1>
+    <p class="text-gray-700 mb-8 text-center">
+        This scale helps you understand your daily CO₂ emissions in the context of Germany's average and the global climate goals for 2024/2025.
+    </p>
+
+    <!-- Responsive Table Container -->
+    <div class="overflow-x-auto rounded-lg border border-gray-200">
+        <table class="min-w-full divide-y divide-gray-200 text-sm">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="whitespace-nowrap px-4 py-3 text-left font-semibold text-gray-800">Category</th>
+                    <th class="whitespace-nowrap px-4 py-3 text-left font-semibold text-gray-800">Daily Emissions (kg CO₂e)</th>
+                    <th class="px-4 py-3 text-left font-semibold text-gray-800">Description & Context</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+                <tr class="bg-green-50">
+                    <td class="whitespace-nowrap px-4 py-3 font-medium text-green-800">Very Good</td>
+                    <td class="whitespace-nowrap px-4 py-3 text-gray-800"><strong>Below 3 kg</strong></td>
+                    <td class="px-4 py-3 text-gray-700">Aligns with the 1.5°C Paris Agreement target. Represents a highly conscious, climate-neutral lifestyle.</td>
+                </tr>
+                <tr class="bg-blue-50">
+                    <td class="whitespace-nowrap px-4 py-3 font-medium text-blue-800">Good</td>
+                    <td class="whitespace-nowrap px-4 py-3 text-gray-800"><strong>3 kg - 10 kg</strong></td>
+                    <td class="px-4 py-3 text-gray-700">A significant reduction from the national average. On a strong path towards sustainability.</td>
+                </tr>
+                <tr class="bg-yellow-50">
+                    <td class="whitespace-nowrap px-4 py-3 font-medium text-yellow-800">Okay</td>
+                    <td class="whitespace-nowrap px-4 py-3 text-gray-800"><strong>10 kg - 20 kg</strong></td>
+                    <td class="px-4 py-3 text-gray-700">Better than the average German citizen, but still not sustainable in the long term. A good starting point.</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="whitespace-nowrap px-4 py-3 font-medium text-orange-800">Bad</td>
+                    <td class="whitespace-nowrap px-4 py-3 text-gray-800"><strong>20 kg - 35 kg</strong></td>
+                    <td class="px-4 py-3 text-gray-700">This range reflects the <strong>current average lifestyle in Germany (~27 kg/day)</strong>. It is not compatible with climate goals.</td>
+                </tr>
+                <tr class="bg-red-50">
+                    <td class="whitespace-nowrap px-4 py-3 font-medium text-red-800">Very Bad</td>
+                    <td class="whitespace-nowrap px-4 py-3 text-gray-800"><strong>Above 35 kg</strong></td>
+                    <td class="px-4 py-3 text-gray-700">Represents a lifestyle with a significantly higher-than-average impact on the climate.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-xs text-gray-500 mt-2">
+        <em>*CO₂e (Carbon Dioxide Equivalent) includes all major greenhouse gases to provide a complete picture of climate impact.</em>
+    </p>
+
+    <!-- Sources Section -->
+    <div class="mt-8">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Sources</h3>
+        <ul class="list-disc list-inside text-gray-700 space-y-2">
+            <li>
+                <strong>German Environment Agency (UBA):</strong> For official data on Germany's average per capita emissions and long-term climate targets.
+                <a href="https://www.umweltbundesamt.de/en" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline ml-1">Visit site</a>
+            </li>
+            <li>
+                <strong>Intergovernmental Panel on Climate Change (IPCC):</strong> For the scientific consensus on the 1.5°C warming limit that informs these targets.
+                <a href="https://www.ipcc.ch/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline ml-1">Visit site</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Back to Home Link -->
+    <div class="text-center mt-8">
+        <a href="/" class="text-blue-600 hover:underline">← Back to Home</a>
+    </div>
+
+</div>
+{% endblock %}

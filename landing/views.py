@@ -98,4 +98,7 @@ def clear_history(request):
 def impact_view(request):
     return render(request, 'impact.html')
 
+def interpretation_view(request):
+    return render(request, 'interpretation.html')
+
 

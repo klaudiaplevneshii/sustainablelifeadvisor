@@ -31,4 +31,6 @@ urlpatterns = [
 
     path('impact/', views.impact_view, name='impact'),
 
+    path('interpretation/', views.interpretation_view, name='interpretation'),
+
 ]
