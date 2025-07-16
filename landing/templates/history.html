@@ -9,6 +9,9 @@
     <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">
         Your Carbon Footprint History
     </h2>
+<p class="text-gray-500 text-sm mb-4 text-center">
+        Click a row below to revisit your carbon result and AI suggestions.
+    </p>
 
     {% if history %}
         <table class="table-auto w-full border border-gray-300 text-sm rounded overflow-hidden">
@@ -25,7 +28,8 @@
             </thead>
             <tbody>
                 {% for entry in history %}
-                    <tr class="hover:bg-green-50 transition duration-200">
+                    <tr onclick="goToResult({{ forloop.counter0 }})"
+                class="hover:bg-gray-100 cursor-pointer transition duration-200">
                         <td class="border px-4 py-2">{{ entry.transport }}</td>
                         <td class="border px-4 py-2">{{ entry.distance }}</td>
                         <td class="border px-4 py-2">{{ entry.energy }}</td>
@@ -51,6 +55,53 @@
         Delete All Records
     </button>
 </form>
+
+    <!-- Loading overlay -->
+<div id="loadingOverlay" style="
+    display:none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1.5rem;
+    color: #2f855a;
+    font-weight: 600;
+">
+  <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"
+       fill="none" stroke="#2f855a" stroke-width="4">
+    <circle cx="25" cy="25" r="20" stroke-opacity="0.25"/>
+    <path d="M45 25a20 20 0 0 1-20 20" stroke-linecap="round"
+          style="animation: spin 1s linear infinite;"/>
+  </svg>
+  <div style="margin-top: 12px;">Loading, please wait...</div>
+</div>
+
+<style>
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: 25px 25px;
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: 25px 25px;
+  }
+}
+</style>
+
+<script>
+function goToResult(index) {
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.style.display = 'flex';
+    setTimeout(() => {
+        window.location.href = `/result/history/${index}`;
+    }, 1000);
+}
+</script>
+<div class="h-16"></div>
 {% endblock %}
 
 

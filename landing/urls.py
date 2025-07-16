@@ -33,4 +33,8 @@ urlpatterns = [
 
     path('interpretation/', views.interpretation_view, name='interpretation'),
 
+    path('result/<int:record_id>/', views.carbon_result_from_index, name='carbon_result_from_index'),
+
+path('result/history/<int:history_id>/', views.result_from_history, name='result_from_history'),
+
 ]

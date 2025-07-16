@@ -6,6 +6,9 @@ import markdown
 from django.urls import reverse
 from .models import EmissionRecord
 from .utils import estimate_footprint, generate_ai_suggestion_mistral
+import markdown
+
+
 
 def hello(request):
     return HttpResponse("¡Hello Django!")
@@ -101,4 +104,44 @@ def impact_view(request):
 def interpretation_view(request):
     return render(request, 'interpretation.html')
 
+def carbon_result_from_index(request, record_id):
+    history = request.session.get('user_history', [])
+    if 0 <= record_id < len(history):
+        entry = history[record_id]
+        result = entry.get('result')
+        return render(request, 'result.html', {
+            'result': result,
+        })
+    return redirect('view_history')
 
+def generate_ai_html_from_inputs(transport, distance, energy, gas, fuel, litros):
+    prompt = (
+        f"The user drives {distance} km per day using a {transport}, "
+        f"uses {energy} kWh of electricity, consumes {gas} m³ of gas, and uses {litros} L of {fuel}. "
+        "Suggest 3 practical and friendly ways to reduce their carbon footprint."
+    )
+    ai_response = generate_ai_suggestion_mistral(prompt)
+    html = markdown.markdown(ai_response)
+    return html
+
+def result_from_history(request, history_id):
+    history = request.session.get('user_history', [])
+    if 0 <= history_id < len(history):
+        entry = history[history_id]
+        result = entry.get('result')
+
+        ai_html = generate_ai_html_from_inputs(
+            transport=entry['transport'],
+            distance=entry['distance'],
+            energy=entry['energy'],
+            gas=entry['gas'],
+            fuel=entry['fuel'],
+            litros=entry['litres']
+        )
+
+        return render(request, 'result.html', {
+            'result': result,
+            'ai_suggestion_html': mark_safe(ai_html)
+        })
+    else:
+        return redirect('view_history')
