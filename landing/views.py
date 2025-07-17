@@ -2,16 +2,23 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
-import markdown
 from django.urls import reverse
 from .models import EmissionRecord
 from .utils import estimate_footprint, generate_ai_suggestion_mistral
 import markdown
+from django.db.models import Q
 
+def homepage(request):
+    return render(request, 'homepage.html')
 
+def about_view(request):
+    return render(request, 'about.html')
 
-def hello(request):
-    return HttpResponse("¡Hello Django!")
+def impact_view(request):
+    return render(request, 'impact.html')
+
+def interpretation_view(request):
+    return render(request, 'interpretation.html')
 
 def calculate(request):
     if request.method == 'POST':
@@ -33,86 +40,46 @@ def calculate(request):
             litros
         )
 
-        entry = {
-            'transport': transport,
-            'distance': distance,
-            'energy': energy,
-            'gas': gas,
-            'fuel': fuel,
-            'litres': litros,
-            'result': result
-        }
 
-        history = request.session.get('user_history', [])
-        history.append(entry)
-        request.session['user_history'] = history
-
-        prompt = (
-            f"The user drives {distance} km per day using a {transport}, "
-            f"uses {energy} kWh of electricity, consumes {gas} m³ of gas, and uses {litros} L of {fuel}. "
-            "Suggest 3 practical and friendly ways to reduce their carbon footprint."
+        record = EmissionRecord.objects.create(
+            transport=transport,
+            distance=distance,
+            energy=energy,
+            gas=gas,
+            fuel=fuel,
+            litres=litros,
+            result=result
         )
 
-        ai_response = generate_ai_suggestion_mistral(prompt)
-        html = markdown.markdown(ai_response)
-
-        request.session['latest_result'] = result
-        request.session['latest_ai_suggestion'] = html
-
-        return redirect(reverse('result'))
+        return redirect('result_from_db_history', record_id=record.id)
 
     return render(request, 'form.html')
 
 
-def result(request):
-    result = request.session.get('latest_result')
-    ai_suggestion_html = request.session.get('latest_ai_suggestion')
-
-    if result is None:
-
-        return redirect(reverse('calculate'))
-
-    context = {
-        'result': result,
-        'ai_suggestion_html': mark_safe(ai_suggestion_html)
-    }
-    return render(request, 'result.html', context)
-
-
-def about_view(request):
-    return render(request, 'about.html')
-
-
-def homepage(request):
-    return render(request, 'homepage.html')
-
-
 def view_history(request):
-    history = request.session.get('user_history', [])
-    return render(request, 'history.html', {'history': history})
+    month = request.GET.get('month')
+    min_result = request.GET.get('min_result')
 
+    filters = Q()
+
+    if month:
+        filters &= Q(created_at__month=int(month.split('-')[1]), created_at__year=int(month.split('-')[0]))
+
+    if min_result:
+        filters &= Q(result__gte=float(min_result))
+
+    history = EmissionRecord.objects.filter(filters).order_by('-created_at')[:10]
+
+    return render(request, 'history.html', {
+        'history': history,
+        'selected_month': month,
+        'selected_min_result': min_result
+    })
 
 def clear_history(request):
     if request.method == 'POST':
-        request.session['user_history'] = []
+        EmissionRecord.objects.all().delete()
         return redirect('view_history')
-
-
-def impact_view(request):
-    return render(request, 'impact.html')
-
-def interpretation_view(request):
-    return render(request, 'interpretation.html')
-
-def carbon_result_from_index(request, record_id):
-    history = request.session.get('user_history', [])
-    if 0 <= record_id < len(history):
-        entry = history[record_id]
-        result = entry.get('result')
-        return render(request, 'result.html', {
-            'result': result,
-        })
-    return redirect('view_history')
 
 def generate_ai_html_from_inputs(transport, distance, energy, gas, fuel, litros):
     prompt = (
@@ -124,24 +91,22 @@ def generate_ai_html_from_inputs(transport, distance, energy, gas, fuel, litros)
     html = markdown.markdown(ai_response)
     return html
 
-def result_from_history(request, history_id):
-    history = request.session.get('user_history', [])
-    if 0 <= history_id < len(history):
-        entry = history[history_id]
-        result = entry.get('result')
-
-        ai_html = generate_ai_html_from_inputs(
-            transport=entry['transport'],
-            distance=entry['distance'],
-            energy=entry['energy'],
-            gas=entry['gas'],
-            fuel=entry['fuel'],
-            litros=entry['litres']
-        )
-
-        return render(request, 'result.html', {
-            'result': result,
-            'ai_suggestion_html': mark_safe(ai_html)
-        })
-    else:
+def result_from_db_history(request, record_id):
+    try:
+        record = EmissionRecord.objects.get(id=record_id)
+    except EmissionRecord.DoesNotExist:
         return redirect('view_history')
+
+    ai_html = generate_ai_html_from_inputs(
+        transport=record.transport,
+        distance=record.distance,
+        energy=record.energy,
+        gas=record.gas,
+        fuel=record.fuel,
+        litros=record.litres
+    )
+
+    return render(request, 'result.html', {
+        'result': record.result,
+        'ai_suggestion_html': mark_safe(ai_html)
+    })
