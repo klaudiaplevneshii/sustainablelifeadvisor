@@ -7,6 +7,7 @@ from .models import EmissionRecord
 from .utils import estimate_footprint, generate_ai_suggestion_mistral
 import markdown
 from django.db.models import Q
+from datetime import datetime
 
 def homepage(request):
     return render(request, 'homepage.html')
@@ -57,24 +58,31 @@ def calculate(request):
 
 
 def view_history(request):
-    month = request.GET.get('month')
+    date_str = request.GET.get('date')
     min_result = request.GET.get('min_result')
 
     filters = Q()
 
-    if month:
-        filters &= Q(created_at__month=int(month.split('-')[1]), created_at__year=int(month.split('-')[0]))
+    if date_str:
+        try:
+            selected_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            filters &= Q(created_at__date=selected_date)
+        except ValueError:
+            selected_date = None
+    else:
+        selected_date = None
 
     if min_result:
         filters &= Q(result__gte=float(min_result))
 
-    history = EmissionRecord.objects.filter(filters).order_by('-created_at')[:10]
+    history = EmissionRecord.objects.filter(filters).order_by('-created_at')
 
     return render(request, 'history.html', {
         'history': history,
-        'selected_month': month,
+        'selected_date': date_str,
         'selected_min_result': min_result
     })
+
 
 def clear_history(request):
     if request.method == 'POST':

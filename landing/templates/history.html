@@ -12,9 +12,10 @@
 
     <form method="get" class="mb-6 flex flex-wrap items-center justify-center gap-4 text-sm">
         <div>
-            <label for="month" class="text-gray-700 font-medium mr-2">Month:</label>
-            <input type="month" name="month" id="month" value="{{ selected_month }}"
+            <label for="date" class="text-gray-700 font-medium mr-2">Date:</label>
+            <input type="date" name="date" id="date" value="{{ selected_date }}"
                 class="border rounded p-1 text-sm">
+
         </div>
 
         <div>
@@ -96,18 +97,39 @@
     font-size: 1.5rem;
     color: #2f855a;
     font-weight: 600;
-">
+" class="flex">
   <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"
        fill="none" stroke="#2f855a" stroke-width="4">
     <circle cx="25" cy="25" r="20" stroke-opacity="0.25"/>
-    <path d="M45 25a20 20 0 0 1-20 20" stroke-linecap="round"
-          style="animation: spin 1s linear infinite;"/>
+    <path d="M45 25a20 20 0 0 1-20 20" stroke-linecap="round" class="spin"/>
   </svg>
   <div style="margin-top: 12px;">Loading, please wait...</div>
 </div>
 
+<style>
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: 25px 25px;
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: 25px 25px;
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
+window.onload = function() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+}
+
 function goToResult(recordId) {
     const overlay = document.getElementById('loadingOverlay');
     overlay.style.display = 'flex';
@@ -116,7 +138,6 @@ function goToResult(recordId) {
     }, 1000);
 }
 
-// 📊 Chart.js setup
 const labels = [
     {% for entry in history reversed %}
         "{{ entry.created_at|date:'Y-m-d H:i' }}",
@@ -164,6 +185,3 @@ new Chart(document.getElementById('co2Chart'), config);
 </script>
 
 {% endblock %}
-
-
-
