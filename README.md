@@ -25,7 +25,8 @@ This is a Django-based web application designed to calculate carbon emissions ba
 
 Create and activate a virtual environment:
 
-pip install django pillow whitenoise
+pip install django pillow whitenoise 
+python manage.py migrate
 python manage.py runserver
 
 
