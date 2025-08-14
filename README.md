@@ -42,11 +42,16 @@ pip install django pillow whitenoise
 
 ---
 
+```bash
+pip install markdown 
+```
+
 # Running the Project
 
-After installing the dependencies, run the development server:
+After installing the dependencies, apply the database migrations, and then run the development server:
 
 ```bash
+python manage.py migrate
 python manage.py runserver
 ```
 
