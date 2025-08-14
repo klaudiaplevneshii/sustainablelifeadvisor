@@ -35,16 +35,15 @@ python manage.py runserver
 Install the required Python packages:
 
 ```bash
-pip install django pillow whitenoise
+pip install django pillow whitenoise markdown
 ```
 
 > `Whitenoise` is used for serving static files when deploying the app to a server.
 
 ---
+> `Markdown` allows the application to interpret and render Markdown text.
 
-```bash
-pip install markdown 
-```
+---
 
 # Running the Project
 
