@@ -25,7 +25,7 @@ This is a Django-based web application designed to calculate carbon emissions ba
 
 Create and activate a virtual environment:
 
-pip install django pillow whitenoise 
+pip install django pillow whitenoise markdown
 python manage.py migrate
 python manage.py runserver
 
@@ -40,10 +40,8 @@ pip install django pillow whitenoise markdown
 
 > `Whitenoise` is used for serving static files when deploying the app to a server.
 
----
 > `Markdown` allows the application to interpret and render Markdown text.
 
----
 
 # Running the Project
 
